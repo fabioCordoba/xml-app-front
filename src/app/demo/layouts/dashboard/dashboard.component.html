@@ -1,0 +1,192 @@
+<div class="min-h-screen min-w-full mx-auto bg-gray-100 dark:bg-gray-900">
+  <div class="container min-w-full mx-auto bg-blue-400">
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a
+          href="https://fabiocordoba.xyz/"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <!-- <img
+            src="https://flowbite.com/docs/images/logo.svg"
+            class="h-8"
+            alt="Flowbite Logo"
+          /> -->
+          <span
+            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >Demo</span
+          >
+        </a>
+        <div
+          class="flex items-center md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse"
+        >
+          <!-- <button
+            type="button"
+            data-dropdown-toggle="language-dropdown-menu"
+            class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+            mat-button-item
+            [ariaDisabled]="true"
+            [matMenuTriggerFor]="language_dropdown_menu"
+          >
+            {{ user()?.name }}
+          </button> -->
+          <!-- Dropdown -->
+          <!-- <mat-menu
+            #language_dropdown_menu="matMenu"
+            class="z-50 my-5 text-base list-none bg-white divide-y divide-gray-800 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-100 block"
+          >
+            <div class="px-4 py-3">
+              <span class="block text-sm text-gray-900 dark:text-white">{{
+                user()?.name
+              }}</span>
+              <span
+                class="block text-sm text-gray-500 truncate dark:text-gray-400"
+                >{{ user()?.email }}</span
+              >
+            </div>
+            <mat-divider class="bg-gray-100"></mat-divider>
+            <ul class="py-0 font-medium">
+              <li>
+                <a
+                  (click)="onLogout()"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  role="button"
+                >
+                  <span class="inline-flex items-center">Sign out</span>
+                </a>
+              </li>
+            </ul>
+          </mat-menu> -->
+
+          <button
+            data-collapse-toggle="navbar-language"
+            type="button"
+            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            mat-button-item
+            [matMenuTriggerFor]="navbar_dropdown_menu"
+          >
+            <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Menu normal -->
+        <div
+          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          id="navbar-language"
+        >
+          <dash-nav-menu></dash-nav-menu>
+        </div>
+
+        <!-- Menu Responsive -->
+        <mat-menu
+          #navbar_dropdown_menu="matMenu"
+          class="lg:hidden xl:hidden md:hidden z-10 my-5 text-base list-none bg-white divide-y divide-gray-800 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-100 block"
+        >
+          <dash-nav-menu></dash-nav-menu>
+        </mat-menu>
+      </div>
+    </nav>
+  </div>
+  <div class="container min-w-full mx-auto">
+    <div *ngIf="currentRoute === '/dashboard'">
+      <div class="flex h-[90vh] items-center justify-center">
+        <div
+          class="relative flex max-w-[48rem] flex-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+        >
+          <div
+            class="relative m-0 w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-white bg-clip-border text-gray-700"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1471&amp;q=80"
+              alt="image"
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <div class="p-6">
+            <h6
+              class="mb-4 block font-sans text-base font-semibold uppercase leading-relaxed tracking-normal text-pink-500 antialiased"
+            >
+              startups
+            </h6>
+            <h4
+              class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased"
+            >
+              Lyft launching cross-platform service this week
+            </h4>
+            <p
+              class="mb-8 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased"
+            >
+              Like so many organizations these days, Autodesk is a company in
+              transition. It was until recently a traditional boxed software
+              company selling licenses. Yet its own business model disruption is
+              only part of the story
+            </p>
+            <a class="inline-block" href="#">
+              <button
+                class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button"
+              >
+                Learn More
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  class="h-4 w-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                  ></path>
+                </svg>
+              </button>
+            </a>
+          </div>
+        </div>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
+        />
+      </div>
+      <div class="flex items-center justify-center">
+        <div class="text-sm text-gray-700 py-1">
+          Made with
+          <a
+            class="text-gray-700 font-semibold"
+            href="https://www.material-tailwind.com/docs/html/card?ref=tailwindcomponents"
+            target="_blank"
+            >Material Tailwind</a
+          >
+          by
+          <a
+            href="https://www.creative-tim.com?ref=tailwindcomponents"
+            class="text-gray-700 font-semibold"
+            target="_blank"
+          >
+            Creative Tim</a
+          >.
+        </div>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
