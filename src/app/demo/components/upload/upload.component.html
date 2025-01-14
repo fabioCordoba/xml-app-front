@@ -1,49 +1,407 @@
-<form [formGroup]="uploadForm" (ngSubmit)="upload()" class="max-w-lg mx-auto">
-  <div class="flex items-center justify-center w-full">
-    <label
-      for="dropzone-file"
-      class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-    >
-      <div class="flex flex-col items-center justify-center pt-5 pb-6">
-        <svg
-          class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 20 16"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-          />
-        </svg>
-        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-          <span class="font-semibold">Click to upload</span> or drag and drop
-        </p>
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          <!-- SVG, PNG, JPG or GIF (MAX. 800x400px) -->
-          XML (MAX. 2048)
-        </p>
-      </div>
-      <input
-        id="dropzone-file"
-        formControlName="file"
-        type="file"
-        class="hidden"
-      />
-    </label>
-  </div>
+<div class="flex items-center justify-center w-full">
+  <label
+    for="dropzone-file"
+    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+  >
+    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+      <svg
+        class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 16"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+        />
+      </svg>
+      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        <span class="font-semibold">Click to upload</span> or drag and drop
+      </p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">
+        <!-- SVG, PNG, JPG or GIF (MAX. 800x400px) -->
+        XML (MAX. 2048)
+      </p>
+    </div>
+    <input
+      id="dropzone-file"
+      (change)="onFileSelected($event)"
+      type="file"
+      class="hidden"
+    />
+  </label>
+</div>
 
-  <div class="flex items-center justify-center w-full py-2">
-    <button
-      type="submit"
-      [disabled]="uploadForm.invalid"
-      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    >
-      Submit
-    </button>
-  </div>
-</form>
+<div class="flex items-center justify-center w-full py-2">
+  <button
+    (click)="upload()"
+    [disabled]="!selectedFile"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+  >
+    Submit
+  </button>
+</div>
+
+<div
+  *ngIf="response"
+  class="items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 text-white text-xs"
+>
+  <!-- {{ response | json }} -->
+  <pre>
+    Datos del Documento
+
+     Código Único de Factura - CUFE :
+      {{ response.UUID }}
+      Número de Factura: {{ response.ID }} Forma de pago: {{
+      response.InvoiceTypeCode
+    }}
+      Fecha de Emisión: {{ response.IssueDate }} Medio de Pago: {{
+      response.PaymentMeans.PaymentMeansCode
+    }}
+      Fecha de Vencimiento: {{ response.DueDate }} Orden de pedido:
+      Tipo de Operación: {{
+      response.CustomizationID
+    }} Fecha de orden de pedido:
+
+    Datos del Emisor / Vendedor
+
+      Razón Social: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationName
+    }}
+      Nombre Comercial: {{
+      response.AccountingSupplierParty.Party.PartyLegalEntity.RegistrationName
+    }}
+      Nit del Emisor: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.CompanyID
+    }} País: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.Country?.Name
+    }}
+      Tipo de Contribuyente: ?? Departamento: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.CountrySubentity
+    }}
+      Régimen Fiscal:{{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.TaxLevelCode
+    }} Municipio / Ciudad: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.CityName
+    }}
+      Responsabilidad tributaria: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.TaxScheme.ID
+    }} - {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.TaxScheme.Name
+    }} Dirección: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.AddressLine?.Line
+    }}
+      Actividad Económica: {{
+      response.AccountingSupplierParty.Party.IndustryClassificationCode
+    }} Teléfono / Móvil: {{
+      response.AccountingSupplierParty.Party.Contact.Telephone
+    }}
+      Correo: {{
+      response.AccountingSupplierParty.Party.Contact.ElectronicMail
+    }}
+
+    Datos del Adquiriente / Comprador
+
+      Nombre o Razón Social: {{
+      response.AccountingCustomerParty.Party.PartyName.Name
+    }}
+      Tipo de Documento: ?? País: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address.Country
+        .Name
+    }}
+      Número Documento: {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.CompanyID
+    }} Departamento: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address
+        .CountrySubentity
+    }}
+      Tipo de Contribuyente: ?? Municipio / Ciudad: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName
+    }}
+      Régimen fiscal: {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode
+    }} Dirección: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address
+        .AddressLine.Line
+    }}
+      Responsabilidad tributaria: {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme.ID
+    }} - {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme.Name
+    }}  Teléfono / Móvil: {{
+      response.AccountingCustomerParty.Party.Contact.Telephone
+    }}
+      Correo: {{
+      response.AccountingCustomerParty.Party.Contact.ElectronicMail
+    }}
+
+    Detalles de Productos
+    <div class="">
+      <table class="table-fixed border-collapse w-full">
+        <thead>
+          <tr
+            class="bg-gray-200 text-gray-600 text-xs"
+          >
+          <th class="text-center  bg-gray-200 text-gray-600 border border-gray-300 w-10">Nro.</th>
+          <th class="w-32 text-center bg-gray-200 text-gray-600 border border-gray-300">Código</th>
+          <th class="w-32 text-center bg-gray-200 text-gray-600 border border-gray-300">Descripción</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300">U/M</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300">Cantidad</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300 whitespace-normal" >Precio unitario</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300 whitespace-normal">Descuento detalle</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300 whitespace-normal">Recargo detalle</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300">IVA</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300">%</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300">INC</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300">%</th>
+          <th class="text-center bg-gray-200 text-gray-600 border border-gray-300 whitespace-normal">Precio unitario de venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invoice of response.InvoiceLine; let i = index" class=" bg-gray-200 ">
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.ID}}</div>
+            </td>
+            <td class="text-center border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.Item.StandardItemIdentification.ID}}</div>
+            </td>
+            <td class="text-center whitespace-normal break-words border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.Item.Description}}</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">??</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.InvoicedQuantity |   number:'1.2-2'}}</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.Price.PriceAmount |  currency }}</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.AllowanceCharge?.Amount ?? 0 |  currency}}</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">??</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{getFirstTaxTotal(invoice.TaxTotal).TaxAmount |  currency}}</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{getFirstTaxTotal(invoice.TaxTotal).TaxSubtotal?.TaxCategory?.Percent}}</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">??</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">??</div>
+            </td>
+            <td class="text-center  border border-gray-300">
+              <div class="text-xs text-gray-600">{{invoice.LineExtensionAmount |  currency}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    Datos Totales
+
+    <div class="grid grid-cols-2 gap-4">
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">MONEDA</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">TASA DE CAMBIO</td>
+        </tr>
+      </table>
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">MONEDA</td>
+          <td class="border border-gray-300 px-4 py-2">COP</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">TASA DE CAMBIO</td>
+        </tr>
+      </table>
+
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Subtotal</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Descuento detalle</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total Bruto Factura</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">IVA</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">INC</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Bolsas</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Otros impuestos</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total impuesto (=)</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total neto factura (=)</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Descuento Global (-)</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Recargo Global (+)</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total factura (=) ㅤㅤㅤㅤㅤ $</td>
+          <td class="border border-gray-300 px-4 py-2">$</td>
+        </tr>
+      </table>
+
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Subtotal val</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Descuento detalle</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total Bruto Factura</td>
+          <td class="border border-gray-300 px-4 py-2">{{response.LegalMonetaryTotal.LineExtensionAmount | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">IVA</td>
+          <td class="border border-gray-300 px-4 py-2">{{getFirstTaxTotal(response.TaxTotal).TaxAmount |  number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">INC</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Bolsas</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Otros impuestos</td>
+          <td class="border border-gray-300 px-4 py-2">{{getSecondTaxTotal(response.TaxTotal).TaxAmount | number:'1.2-2' }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total impuesto (=)</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total neto factura (=)</td>
+          <td class="border border-gray-300 px-4 py-2">{{response.LegalMonetaryTotal.PayableAmount| number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Descuento Global (-)</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Recargo Global (+)</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Total factura (=) ㅤㅤㅤㅤㅤ{{response.DocumentCurrencyCode}} $</td>
+          <td class="border border-gray-300 px-4 py-2">{{response.LegalMonetaryTotal.TaxInclusiveAmount | currency}}</td>
+        </tr>
+      </table>
+
+      <div>
+        Valores informativos
+      </div>
+
+      <div>
+        Valores informativos
+      </div>
+
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">ANTICIPOS</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Anticipos</td>
+        </tr>
+      </table>
+
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">ANTICIPOS</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Anticipos</td>
+        </tr>
+      </table>
+
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">RETENCIONES</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Rete fuente</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Rete IVA</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Rete ICA</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+      </table>
+
+      <table class="table-auto border-collapse border border-gray-300">
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">RETENCIONES</td>
+          <td class="border border-gray-300 px-4 py-2"></td>
+
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Rete fuente</td>
+          <td class="border border-gray-300 px-4 py-2">{{response?.WithholdingTaxTotal?.TaxAmount | currency }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Rete IVA</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">Rete ICA</td>
+          <td class="border border-gray-300 px-4 py-2">0,00</td>
+        </tr>
+      </table>
+
+    </div>
+
+
+  </pre>
+</div>
