@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  front-xml-app:
+    image: fabiocordobadev/personal:front-xml-app
+    container_name: front-xml-app
+    restart: always
+    ports:
+      - 8070:80

@@ -24,4 +24,12 @@ export class DemoService {
       })
       .pipe(catchError((err) => throwError(() => err.error)));
   }
+
+  export(data: any): Observable<Blob> {
+    const url = `${this.baseUrl}/api/export`;
+
+    return this.http
+      .post(url, { data }, { responseType: 'blob' })
+      .pipe(catchError((err) => throwError(() => err.error)));
+  }
 }

@@ -1,1 +1,114 @@
-<p>export works!</p>
+<div
+  *ngIf="response; else alert"
+  class="items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 text-white text-xs"
+>
+  <!-- {{ response | json }} -->
+  <pre>
+    Datos del Documento
+
+     Código Único de Factura - CUFE :
+      {{ response.UUID }}
+      Número de Factura: {{ response.ID }} Forma de pago: {{
+      response.InvoiceTypeCode
+    }}
+      Fecha de Emisión: {{ response.IssueDate }} Medio de Pago: {{
+      response.PaymentMeans.PaymentMeansCode
+    }}
+      Fecha de Vencimiento: {{ response.DueDate }} Orden de pedido:
+      Tipo de Operación: {{
+      response.CustomizationID
+    }} Fecha de orden de pedido:
+
+    Datos del Emisor / Vendedor
+
+      Razón Social: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationName
+    }}
+      Nombre Comercial: {{
+      response.AccountingSupplierParty.Party.PartyLegalEntity.RegistrationName
+    }}
+      Nit del Emisor: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.CompanyID
+    }} País: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.Country?.Name
+    }}
+      Tipo de Contribuyente: ?? Departamento: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.CountrySubentity
+    }}
+      Régimen Fiscal:{{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.TaxLevelCode
+    }} Municipio / Ciudad: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.CityName
+    }}
+      Responsabilidad tributaria: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.TaxScheme.ID
+    }} - {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.TaxScheme.Name
+    }} Dirección: {{
+      response.AccountingSupplierParty.Party.PartyTaxScheme.RegistrationAddress
+        ?.AddressLine?.Line
+    }}
+      Actividad Económica: {{
+      response.AccountingSupplierParty.Party.IndustryClassificationCode
+    }} Teléfono / Móvil: {{
+      response.AccountingSupplierParty.Party.Contact.Telephone
+    }}
+      Correo: {{
+      response.AccountingSupplierParty.Party.Contact.ElectronicMail
+    }}
+
+    Datos del Adquiriente / Comprador
+
+      Nombre o Razón Social: {{
+      response.AccountingCustomerParty.Party.PartyName.Name
+    }}
+      Tipo de Documento: ?? País: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address.Country
+        .Name
+    }}
+      Número Documento: {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.CompanyID
+    }} Departamento: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address
+        .CountrySubentity
+    }}
+      Tipo de Contribuyente: ?? Municipio / Ciudad: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName
+    }}
+      Régimen fiscal: {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode
+    }} Dirección: {{
+      response.AccountingCustomerParty.Party.PhysicalLocation.Address
+        .AddressLine.Line
+    }}
+      Responsabilidad tributaria: {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme.ID
+    }} - {{
+      response.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme.Name
+    }}  Teléfono / Móvil: {{
+      response.AccountingCustomerParty.Party.Contact.Telephone
+    }}
+      Correo: {{
+      response.AccountingCustomerParty.Party.Contact.ElectronicMail
+    }}
+  </pre>
+</div>
+
+<div class="flex items-center justify-center w-full py-2">
+  <button
+    (click)="export()"
+    [disabled]="!response"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+  >
+    Export Data
+  </button>
+</div>
+
+<ng-template #alert>
+  <div class="alert alert-warning text-center text-white">
+    No se encontraron datos, cargue un archivo XML por favor.
+  </div>
+</ng-template>
